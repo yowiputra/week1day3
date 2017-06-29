@@ -32,6 +32,9 @@ var data = {
 };
 
 // List everyone and for each of them, list the names of who they follow and who follows them
+function nameList(){
+
+}
 
 // Identify who follows the most people
 function whoFollowsMost(){
@@ -128,3 +131,33 @@ function followNoFollow(){
 }
 
 // List everyone and their reach (sum of # of followers and # of followers of followers)
+function calculateReach(){
+  var resultArr = [];
+  for(var personId in data){
+    var dataArr = [];
+    var name = data[personId]["name"];
+    var reach = getNumOfFollowers(personId);
+    for (var id in data){
+      data[id]["follows"].forEach(function(item){
+        if(item == personId){
+          reach += getNumOfFollowers(id);
+        }
+      })
+    }
+    dataArr.push(name, reach);
+    resultArr.push(dataArr);
+  }
+  return resultArr;
+}
+
+function getNumOfFollowers(personId){
+  var followerCount = 0;
+  for (var id in data){
+    data[id]["follows"].forEach(function(item){
+      if(item == personId){
+        followerCount++;
+      }
+    })
+  }
+  return followerCount;
+}
